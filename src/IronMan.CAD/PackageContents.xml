@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ApplicationPackage SchemaVersion="1.0"
+					AppVersion="1.0.0.0"
+					ProductCode="533EB6A2-99A6-44CC-ACD1-7382BC2087AB"
+					Name="IronMan"
+					NameChs="钢铁侠"
+					Author="Omar">
+	<CompanyDetails Name="IronMan开发组" url="www.starkfuture.top" email="" ></CompanyDetails>
+	
+	<Components>
+		<ComponentEntry AppName ="IronMan" 
+						AppDescription="This is my app"
+						ModuleName=".\Contents\IronMan.CAD.dll"
+						LoadOnAutoCADStartup="true">
+			<!--启动时加载的命令-->
+			<!--<Commands>
+				<Command Local="Command" Global="Command" StartupCommand="true" ></Command>
+			</Commands>-->
+		</ComponentEntry>
+	</Components>
+
+</ApplicationPackage>
