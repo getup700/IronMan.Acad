@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IronMan.CAD.Extensions
+namespace IronMan.CAD.Demo.Extensions
 {
-    internal class MecroData
+    public class MecroData
     {
         /// <summary>
         /// Display name

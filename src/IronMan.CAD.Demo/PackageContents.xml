@@ -10,7 +10,7 @@
 	<Components>
 		<ComponentEntry AppName ="IronMan" 
 						AppDescription="This is my app"
-						ModuleName=".\Contents\IronMan.CAD.dll"
+						ModuleName=".\Contents\IronMan.CAD.Demo.dll"
 						LoadOnAutoCADStartup="true">
 			<!--启动时加载的命令-->
 			<!--<Commands>

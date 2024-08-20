@@ -7,11 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IronMan.CAD.Extensions
+namespace IronMan.CAD.Demo.Extensions
 {
     internal static class DocumentExtension
     {
-        public static ObjectId GetOrCreateLayer(this Document document , string name)
+        public static ObjectId GetOrCreateLayer(this Document document, string name)
         {
             var layerTable = (LayerTable)document.Database.LayerTableId.GetObject(OpenMode.ForWrite);
             if (!layerTable.Has(name))
@@ -20,7 +20,7 @@ namespace IronMan.CAD.Extensions
                 record.Name = name;
                 record.Color = Color.FromColorIndex(ColorMethod.ByAci, 1);
                 layerTable.Add(record);
-                document.TransactionManager.TopTransaction.AddNewlyCreatedDBObject(record,true);
+                document.TransactionManager.TopTransaction.AddNewlyCreatedDBObject(record, true);
 
             }
             return layerTable[name];

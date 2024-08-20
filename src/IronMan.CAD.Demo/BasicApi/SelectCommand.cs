@@ -3,8 +3,8 @@ using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Runtime;
-using IronMan.CAD.Commands;
-using IronMan.CAD.Extensions;
+using IronMan.CAD.Demo.BasicApi;
+using IronMan.CAD.Demo.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 [assembly: CommandClass(typeof(SelectCommand))]
-namespace IronMan.CAD.Commands;
+namespace IronMan.CAD.Demo.BasicApi;
 
 internal class SelectCommand
 {

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 [assembly: CommandClass(typeof(Dictionary))]
-namespace IronMan.CAD.Commands
+namespace IronMan.CAD.Demo.BasicApi
 {
     internal class DictionaryCommand : CommandBase
     {

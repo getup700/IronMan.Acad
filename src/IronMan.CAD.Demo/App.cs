@@ -1,8 +1,8 @@
 ﻿using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.Customization;
 using Autodesk.AutoCAD.Runtime;
-using IronMan.CAD;
-using IronMan.CAD.Commands;
+using IronMan.CAD.Demo;
+using IronMan.CAD.Demo.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 [assembly: ExtensionApplication(typeof(App))]
-namespace IronMan.CAD
+namespace IronMan.CAD.Demo
 {
     /// <summary>
     /// 不使用aswindow或acwindow方式创建ui，code方式？
@@ -26,7 +26,7 @@ namespace IronMan.CAD
         private string root;
         private CustomizationSection mainSection;
 
-        private MenuMacro home;
+
 
         public App()
         {
@@ -35,22 +35,9 @@ namespace IronMan.CAD
             root = GetRootPath();
             customCuix = GetCustomCuix();
         }
-
-        public MacroGroup Parent { get; set; }
-
-        public MenuMacro WelcomeMenuMacro
-        {
-            get
-            {
-                if (home == null)
-                {
-                    home = new MenuMacro(Parent, "home", "WelcomeCommand", "IronMan_tag");
-                    home.macro.LargeImage = $@"{root}\Assets\PhoneNumber.png";
-                    home.macro.SmallImage = $@"{root}\Assets\PhoneNumber.png";
-                }
-                return home;
-            }
-        }
+        public MacroGroup ParentGroup { get; set; }
+        public MenuMacro WelcomeMenuMacro { get; set; }
+        public MenuMacro CreateLine { get; set; }
 
         public void Initialize()
         {
@@ -61,7 +48,14 @@ namespace IronMan.CAD
             {
                 MenuGroupName = menuGroup
             };
-            Parent = new MacroGroup("IronMan", customSection.MenuGroup);
+
+            //创建宏
+            var macroGroup = new MacroGroup("IronMan", customSection.MenuGroup);
+            ParentGroup = macroGroup;
+
+            WelcomeMenuMacro = CreateMenuMacro(macroGroup, "WelcomeCommand", $"{root}\\Assets\\PhoneNumber.png");
+            CreateLine = CreateMenuMacro(macroGroup, "CreateLine", $"{root}\\Assets\\PhoneNumber.png");
+
 
             CreateRibbon(customSection);
             //CreatePopMenu(customSection);
@@ -79,40 +73,11 @@ namespace IronMan.CAD
         {
             var ribbonRoot = section.MenuGroup.RibbonRoot;
 
-            ////创建Tab
-            //var tabSource = new RibbonTabSource(ribbonRoot)
-            //{
-            //    Name = "IronMan",
-            //    Text = "IronMan"
-            //};
-            //ribbonRoot.RibbonTabSources.Add(tabSource);
-
             var tabSource = section.CreateTab("IronMan");
-
-
-            //创建Panel
-            //var panelSource = new RibbonPanelSource(ribbonRoot)
-            //{
-            //    Name = "userpanel",
-            //    Text = "一个Panel"
-            //};
-            //ribbonRoot.RibbonPanelSources.Add(panelSource);
 
             var panelSource = tabSource.CreatePanel("UserPanel");
 
-
-            ////创建行
-            //var ribbonRow = new RibbonRow(panelSource);
-            //panelSource.Items.Add(ribbonRow);
-
-            //var ribbonPanelSourceReference = new RibbonPanelSourceReference(tabSource)
-            //{
-            //    PanelId = panelSource.ElementID,
-            //};
-            //tabSource.Items.Add(ribbonPanelSourceReference);
-
             var ribbonRow = panelSource.CreateRibbonRow();
-
 
             //创建按钮
             ribbonRow.CreatePushButton(x =>
@@ -120,6 +85,16 @@ namespace IronMan.CAD
                 x.Text = "Welcome";
                 x.ButtonStyle = RibbonButtonStyle.LargeWithText;
                 x.MacroID = WelcomeMenuMacro.ElementID;
+            });
+            ribbonRow.CreatePushButton(x =>
+            {
+                x.Text = "CreateLine";
+                x.MacroID = CreateLine.ElementID;
+            });
+            ribbonRow.CreatePushButton(x =>
+            {
+                x.Text = "CreateLightWeightLine";
+                x.MacroID = ParentGroup.CreateMenuMacro("CreateLightWeightLine", $"{root}\\Assets\\PhoneNumber.png").ElementID;
             });
 
             ////创建分割线
@@ -215,7 +190,7 @@ namespace IronMan.CAD
             File.Delete(customCuix);
         }
 
-        private void Application_BeginQuit(object sender, Autodesk.AutoCAD.ApplicationServices.BeginQuitEventArgs e)
+        private void Application_BeginQuit(object sender, BeginQuitEventArgs e)
         {
             DeleteCuix();
             Autodesk.AutoCAD.ApplicationServices.Core.Application.BeginQuit -= Application_BeginQuit;
@@ -227,7 +202,8 @@ namespace IronMan.CAD
         /// <exception cref="NotImplementedException"></exception>
         public void Terminate()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            DeleteCuix();
         }
         private string GetCustomCuix()
         {
@@ -236,7 +212,7 @@ namespace IronMan.CAD
 
         private string GetRootPath()
         {
-            var location = this.GetType().Assembly.Location;
+            var location = GetType().Assembly.Location;
             var root = Directory.GetParent(location).FullName;
             return root;
         }
@@ -248,6 +224,13 @@ namespace IronMan.CAD
             var fileInfo = new FileInfo(mainCuix);
             var section = new CustomizationSection(mainCuix);
             return section;
+        }
+
+        private MenuMacro CreateMenuMacro(MacroGroup group, string commandName, string imagePath)
+        {
+            var menuMacro = new MenuMacro(group, commandName, commandName, commandName);
+            menuMacro.macro.LargeImage = imagePath;
+            return menuMacro;
         }
 
     }

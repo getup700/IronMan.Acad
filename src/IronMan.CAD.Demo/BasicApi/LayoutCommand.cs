@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 [assembly: CommandClass(typeof(Layout))]
-namespace IronMan.CAD.Commands
+namespace IronMan.CAD.Demo.BasicApi
 {
     internal class LayoutCommand : CommandBase
     {

@@ -1,8 +1,8 @@
 ﻿using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Runtime;
-using IronMan.CAD.Commands;
-using IronMan.CAD.Extensions;
+using IronMan.CAD.Demo.BasicApi;
+using IronMan.CAD.Demo.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +10,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 [assembly: CommandClass(typeof(BlockCommand))]
-namespace IronMan.CAD.Commands;
+namespace IronMan.CAD.Demo.BasicApi;
 
 internal class BlockCommand : CommandBase
 {
+    //模态时被使用，绘制图形时被使用，编辑块时禁止使用
     [CommandMethod(nameof(CreateBlock), CommandFlags.Modal | CommandFlags.NoBlockEditor)]
     public void CreateBlock()
     {

@@ -3,30 +3,30 @@ using Autodesk.AutoCAD.ApplicationServices.Core;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Runtime;
-using IronMan.CAD.Commands;
+using IronMan.Abstract.CAD.UI;
+using IronMan.CAD.Demo.BasicApi;
 using System;
 using System.Diagnostics;
 using Application = Autodesk.AutoCAD.ApplicationServices.Core.Application;
 
-[assembly: CommandClass(typeof(InputCommand))]
-namespace IronMan.CAD.Commands;
+[assembly: CommandClass(typeof(UserInputCommand))]
+namespace IronMan.CAD.Demo.BasicApi;
 
-public class InputCommand
+[Macro(nameof(UserInputCommand))]
+public class UserInputCommand : CommandBase
 {
-    public static Document Document = Application.DocumentManager.MdiActiveDocument;
-    public static Editor Editor = Document.Editor;
-    public static Database Database = Document.Database;
-
-
+    [Macro(nameof(InputPoint))]
     [CommandMethod(nameof(InputPoint), CommandFlags.Modal)]
     public void InputPoint()
     {
         var options = new PromptPointOptions("\n在绘制窗口选择点：");
         options.Keywords.Add("Create", "C", "创建(C)");
         options.Keywords.Add("Back", "B", "返回(B)");
+        //把添加的keywords添加到提示中
         options.AppendKeywordsToMessage = true;
 
         var options1 = new PromptPointOptions("\n在创建窗口选择点[创建(C)/返回(B)]：", "Create Back");
+        //用户必须输入一个值
         options.AllowNone = false;
 
         var result = Editor.GetPoint(options);
@@ -53,6 +53,7 @@ public class InputCommand
         }
     }
 
+    [Macro(nameof(InputPoint))]
     [CommandMethod(nameof(InputAngle), CommandFlags.Modal)]
     public void InputAngle()
     {

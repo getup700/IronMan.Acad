@@ -1,17 +1,17 @@
 ﻿using Autodesk.AutoCAD.Colors;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Runtime;
-using IronMan.CAD.Commands;
+using IronMan.CAD.Demo.BasicApi;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-[assembly: CommandClass(typeof(TableCommand))]
-namespace IronMan.CAD.Commands;
+[assembly: CommandClass(typeof(LayerTableRecordCommand))]
+namespace IronMan.CAD.Demo.BasicApi;
 
-internal class TableCommand : CommandBase
+internal class LayerTableRecordCommand : CommandBase
 {
     [CommandMethod(nameof(GetLayerTableRecord), CommandFlags.Modal | CommandFlags.NoBlockEditor | CommandFlags.NoUndoMarker)]
     public void GetLayerTableRecord()

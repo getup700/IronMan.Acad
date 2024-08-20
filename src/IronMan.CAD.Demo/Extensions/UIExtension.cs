@@ -1,5 +1,4 @@
 ﻿using Autodesk.AutoCAD.Customization;
-using IronMan.CAD.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Drawing.Printing;
@@ -9,7 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IronMan.CAD
+namespace IronMan.CAD.Demo.Extensions
 {
     public static class UIExtension
     {
@@ -32,6 +31,21 @@ namespace IronMan.CAD
             };
             var group = new MacroGroup($"{groupName}", customSection.MenuGroup);
             return group;
+        }
+
+        /// <summary>
+        /// 创建宏
+        /// </summary>
+        /// <param name="group"></param>
+        /// <param name="commandName"></param>
+        /// <param name="imagePath"></param>
+        /// <returns></returns>
+        public static MenuMacro CreateMenuMacro(this MacroGroup group, string commandName, string imagePath)
+        {
+            var menuMacro = new MenuMacro(group, $"{commandName}_name", commandName, "{commandName}_tag");
+
+            menuMacro.macro.LargeImage = imagePath;
+            return menuMacro;
         }
 
         /// <summary>
@@ -112,7 +126,7 @@ namespace IronMan.CAD
         {
             var button = new RibbonCommandButton(row)
             {
-                ButtonStyle = RibbonButtonStyle.LargeWithHorizontalText
+                ButtonStyle = RibbonButtonStyle.LargeWithText
             };
             action(button);
             row.Items.Add(button);
