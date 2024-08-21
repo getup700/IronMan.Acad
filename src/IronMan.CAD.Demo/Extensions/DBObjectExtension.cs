@@ -10,11 +10,11 @@ namespace IronMan.CAD.Demo.Extensions
 {
     public static class DBObjectExtension
     {
-        public static string DbToString(this DBObject dBObject)
+        public static string Print(this DBObject dBObject)
         {
             var builder = new StringBuilder();
             var type = dBObject.GetType();
-            builder.AppendLine($"Start------------{DateTime.Now}------------");
+            builder.AppendLine($"------------Start:{DateTime.Now}------------");
             builder.AppendLine($"type:{type}");
             var properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
                 ?.OrderBy(x => x.Name);
@@ -27,10 +27,11 @@ namespace IronMan.CAD.Demo.Extensions
                 }
                 catch (Exception e)
                 {
-                    builder.AppendLine($"error:{property.Name}{e.Message}");
+                    builder.AppendLine($"error:{property.Name},{e.Message}");
                 }
             }
-            builder.AppendLine($"End------------{DateTime.Now}------------");
+            builder.AppendLine($"------------End:{DateTime.Now}------------");
+            builder.AppendLine();
             return builder.ToString();
         }
     }

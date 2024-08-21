@@ -20,12 +20,17 @@ internal class SelectCommand
     public static Editor Editor = Document.Editor;
     public static Database Database = Document.Database;
 
+    /// <summary>
+    /// 选择实体（无法选中嵌套实体）
+    /// </summary>
     [CommandMethod(nameof(PickObject), CommandFlags.Modal)]
     public void PickObject()
     {
-        var options = new PromptEntityOptions("\n 选择实体");
-        //允许选中锁定图元
-        options.AllowObjectOnLockedLayer = true;
+        var options = new PromptEntityOptions("\n 选择实体")
+        {
+            //允许选中锁定图元
+            AllowObjectOnLockedLayer = true
+        };
 
         var result = Editor.GetEntity(options);
         if (result.Status == PromptStatus.OK)
@@ -33,10 +38,13 @@ internal class SelectCommand
             var selectedId = result.ObjectId;
             using var transaction = Document.TransactionManager.StartOpenCloseTransaction();
             var dbObject = transaction.GetObject(selectedId, OpenMode.ForRead);
-            Editor.WriteMessage(dbObject.DbToString());
+            Editor.WriteMessage(dbObject.Print());
         }
     }
 
+    /// <summary>
+    /// 选择嵌套实体
+    /// </summary>
     [CommandMethod(nameof(PickNestedObject), CommandFlags.Modal)]
     public void PickNestedObject()
     {
@@ -52,7 +60,7 @@ internal class SelectCommand
             var selectedId = result.ObjectId;
             using var transaction = Document.TransactionManager.StartOpenCloseTransaction();
             var dbObject = transaction.GetObject(selectedId, OpenMode.ForRead);
-            Editor.WriteMessage(dbObject.DbToString());
+            Editor.WriteMessage(dbObject.Print());
         }
     }
 
@@ -72,7 +80,7 @@ internal class SelectCommand
             var selectedId = result.Value;
             using var transaction = Document.TransactionManager.StartOpenCloseTransaction();
             //var dbObject = transaction.GetObject(selectedId, OpenMode.ForRead);
-            Editor.WriteMessage($"你选择了{selectedId.Count.ToString()}个图元");
+            Editor.WriteMessage($"你选择了{selectedId.Count}个图元");
         }
     }
 
