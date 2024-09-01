@@ -5,7 +5,6 @@ using IronMan.CAD.Demo.Algorithm;
 using IronMan.CAD.Demo.BasicApi;
 using IronMan.CAD.Demo.Command.Random;
 using IronMan.CAD.Demo.Extensions;
-using IronMan.CAD.Demo.新文件夹;
 using System;
 using System.Collections.Generic;
 using System.Linq;

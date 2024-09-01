@@ -38,6 +38,8 @@ namespace IronMan.CAD.Demo
         public MacroGroup ParentGroup { get; set; }
         public MenuMacro WelcomeMenuMacro { get; set; }
         public MenuMacro CreateLine { get; set; }
+        public MenuMacro AnnotatedAraeByPoint { get; set; }
+        public MenuMacro AnnotatedAreaByLayer { get; set; }
 
         public void Initialize()
         {
@@ -55,7 +57,8 @@ namespace IronMan.CAD.Demo
 
             WelcomeMenuMacro = CreateMenuMacro(macroGroup, "WelcomeCommand", $"{root}\\Assets\\PhoneNumber.png");
             CreateLine = CreateMenuMacro(macroGroup, "CreateLine", $"{root}\\Assets\\PhoneNumber.png");
-
+            AnnotatedAraeByPoint = CreateMenuMacro(macroGroup, "AnnotatedAraeByPoint", $"{root}\\Assets\\PhoneNumber.png");
+            AnnotatedAreaByLayer = CreateMenuMacro(macroGroup, "AnnotatedAreaByLayer", $"{root}\\Assets\\PhoneNumber.png");
 
             CreateRibbon(customSection);
             //CreatePopMenu(customSection);
@@ -91,10 +94,16 @@ namespace IronMan.CAD.Demo
                 x.Text = "CreateLine";
                 x.MacroID = CreateLine.ElementID;
             });
+
             ribbonRow.CreatePushButton(x =>
             {
-                x.Text = "CreateLightWeightLine";
-                x.MacroID = ParentGroup.CreateMenuMacro("CreateLightWeightLine", $"{root}\\Assets\\PhoneNumber.png").ElementID;
+                x.Text = "ByPoint";
+                x.MacroID = ParentGroup.CreateMenuMacro("AnnotatedAreaByPoint", $"{root}\\Assets\\PhoneNumber.png").ElementID;
+            });
+            ribbonRow.CreatePushButton(x =>
+            {
+                x.Text = "ByLayer";
+                x.MacroID = AnnotatedAreaByLayer.ElementID;
             });
 
             ////创建分割线

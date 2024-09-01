@@ -2,6 +2,7 @@
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Runtime;
 using IronMan.CAD.Demo.Algorithm;
+using Stark.Extensions.CAD;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,25 +28,48 @@ namespace IronMan.CAD.Demo.Algorithm
                 .Where(p => p != startPoint)
                 .OrderBy(p => Math.Atan2(p.Y - startPoint.Y, p.X - startPoint.X))
                 .ToList();
-
-            var sortedByPolarAnglePoints = new List<Point3d>();
-
-            RecursiveByPolarAngle(ref sortedByPolarAnglePoints, startPoint, sortedPoints);
-            var result = new List<Line>();
-            foreach (var point in sortedByPolarAnglePoints)
+            sortedPoints.Insert(0, startPoint);
+            var resultPoints = new List<Point3d>();
+            var origin = sortedPoints[1];
+            for (int i = 0; i < sortedPoints.Count; i++)
             {
-                var index = sortedByPolarAnglePoints.IndexOf(point);
-                if (index != sortedByPolarAnglePoints.Count - 1)
+                if (i < 2)
                 {
-                    result.Add(new Line(point, sortedByPolarAnglePoints[index + 1]));
-
+                    resultPoints.Add(sortedPoints[i]);
+                    origin = resultPoints[i];
+                    continue;
+                }
+                else if (i > sortedPoints.Count - 2)
+                {
+                    resultPoints.Add(sortedPoints[i - 2]);
+                    break;
                 }
                 else
                 {
-                    result.Add(new Line(point, sortedByPolarAnglePoints[0]));
+                    var side = GeometryUtil.DetermineSide(origin, sortedPoints[i], sortedPoints[i + 1]);
+                    //i+1在i的右侧,放弃i点,i+1为下一个判断的原点
+                    if (side > 0)
+                    {
+                        resultPoints.Add(sortedPoints[i + 1]);
+                        origin = sortedPoints[i + 1];
+                        continue;
+                    }
+                    else
+                    {
+                        i++;
+                        continue;
+                    }
                 }
             }
-            return result;
+
+            var resultLines = new List<Line>();
+            for (int i = 0; i < resultPoints.Count - 1; i++)
+            {
+                var line = new Line(resultPoints[i], resultPoints[i + 1]);
+                resultLines.Add(line);
+            }
+
+            return resultLines;
 
         }
 

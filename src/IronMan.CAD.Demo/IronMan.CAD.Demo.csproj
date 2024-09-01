@@ -22,11 +22,16 @@
 
 	<ItemGroup>
 		<PackageReference Include="AutoCAD.NET" Version="23.1.0" />
+		<PackageReference Include="NetTopologySuite" Version="2.5.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\..\..\Stark.Abstract.CAD\src\IronMan.Abstract.CAD\IronMan.Abstract.CAD.csproj" />
 	  <ProjectReference Include="..\..\..\Stark.Extensions.CAD\src\Stark.Extensions.CAD\Stark.Extensions.CAD.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Utils\" />
 	</ItemGroup>
 
 	<Target Name="CopyApp" AfterTargets="PostBuildEvent">
