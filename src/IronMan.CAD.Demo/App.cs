@@ -11,6 +11,7 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 [assembly: ExtensionApplication(typeof(App))]
 namespace IronMan.CAD.Demo
@@ -40,6 +41,7 @@ namespace IronMan.CAD.Demo
         public MenuMacro CreateLine { get; set; }
         public MenuMacro AnnotatedAraeByPoint { get; set; }
         public MenuMacro AnnotatedAreaByLayer { get; set; }
+        public MenuMacro CircularAnnotatedArea { get; set; }
 
         public void Initialize()
         {
@@ -55,10 +57,11 @@ namespace IronMan.CAD.Demo
             var macroGroup = new MacroGroup("IronMan", customSection.MenuGroup);
             ParentGroup = macroGroup;
 
-            WelcomeMenuMacro = CreateMenuMacro(macroGroup, "WelcomeCommand", $"{root}\\Assets\\PhoneNumber.png");
-            CreateLine = CreateMenuMacro(macroGroup, "CreateLine", $"{root}\\Assets\\PhoneNumber.png");
-            AnnotatedAraeByPoint = CreateMenuMacro(macroGroup, "AnnotatedAraeByPoint", $"{root}\\Assets\\PhoneNumber.png");
-            AnnotatedAreaByLayer = CreateMenuMacro(macroGroup, "AnnotatedAreaByLayer", $"{root}\\Assets\\PhoneNumber.png");
+            WelcomeMenuMacro = macroGroup.CreateMenuMacro("WelcomeCommand", $"{root}\\Assets\\PhoneNumber.png");
+            CreateLine = macroGroup.CreateMenuMacro("CreateLine", $"{root}\\Assets\\PhoneNumber.png");
+            AnnotatedAraeByPoint = macroGroup.CreateMenuMacro("AnnotatedAraeByPoint", $"{root}\\Assets\\PhoneNumber.png");
+            AnnotatedAreaByLayer = macroGroup.CreateMenuMacro("AnnotatedAreaByLayer", $"{root}\\Assets\\PhoneNumber.png");
+            CircularAnnotatedArea = macroGroup.CreateMenuMacro("CircularAnnotatedArea", $"{root}\\Assets\\PhoneNumber.png");
 
             CreateRibbon(customSection);
             //CreatePopMenu(customSection);
@@ -74,8 +77,6 @@ namespace IronMan.CAD.Demo
 
         private void CreateRibbon(CustomizationSection section)
         {
-            var ribbonRoot = section.MenuGroup.RibbonRoot;
-
             var tabSource = section.CreateTab("IronMan");
 
             var panelSource = tabSource.CreatePanel("UserPanel");
@@ -95,19 +96,31 @@ namespace IronMan.CAD.Demo
                 x.MacroID = CreateLine.ElementID;
             });
 
-            ribbonRow.CreatePushButton(x =>
+
+            ribbonRow.CreateRibbonSplitButton(btn =>
             {
-                x.Text = "ByPoint";
-                x.MacroID = ParentGroup.CreateMenuMacro("AnnotatedAreaByPoint", $"{root}\\Assets\\PhoneNumber.png").ElementID;
-            });
-            ribbonRow.CreatePushButton(x =>
+               
+            },
+            btn1 =>
             {
-                x.Text = "ByLayer";
-                x.MacroID = AnnotatedAreaByLayer.ElementID;
+                btn1.Text = "ByPoint";
+                btn1.MacroID = ParentGroup.CreateMenuMacro("AnnotatedAreaByPoint", $"{root}\\Assets\\PhoneNumber.png").ElementID;
+            },
+            btn2 =>
+            {
+                btn2.Text = "ByLayer";
+                btn2.MacroID = ParentGroup.CreateMenuMacro("AnnotatedAreaByLayer", $"{root}\\Assets\\PhoneNumber.png").ElementID;
+            },
+            btn3 =>
+            {
+                btn3.Text = "Circular";
+                btn3.MacroID = ParentGroup.CreateMenuMacro("CircularAnnotatedArea", $"{root}\\Assets\\PhoneNumber.png").ElementID;
             });
+
 
             ////创建分割线
             ribbonRow.CreateRibbonSeparator();
+
 
             ////创建堆叠式按钮
             ribbonRow.CreateStackPanelButton(btn1 =>
@@ -126,10 +139,13 @@ namespace IronMan.CAD.Demo
                 btn3.MacroID = WelcomeMenuMacro.ElementID;
             });
 
+
             ////创建下拉式按钮
             ribbonRow.CreateRibbonSplitButton(x =>
             {
                 x.Text = "建筑";
+                x.KeyTip = "keyTip";
+                x.TooltipTitle = "Tooltip Title";
             },
             btn1 =>
             {
@@ -233,13 +249,6 @@ namespace IronMan.CAD.Demo
             var fileInfo = new FileInfo(mainCuix);
             var section = new CustomizationSection(mainCuix);
             return section;
-        }
-
-        private MenuMacro CreateMenuMacro(MacroGroup group, string commandName, string imagePath)
-        {
-            var menuMacro = new MenuMacro(group, commandName, commandName, commandName);
-            menuMacro.macro.LargeImage = imagePath;
-            return menuMacro;
         }
 
     }

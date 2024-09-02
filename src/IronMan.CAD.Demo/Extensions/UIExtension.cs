@@ -42,8 +42,7 @@ namespace IronMan.CAD.Demo.Extensions
         /// <returns></returns>
         public static MenuMacro CreateMenuMacro(this MacroGroup group, string commandName, string imagePath)
         {
-            var menuMacro = new MenuMacro(group, $"{commandName}_name", commandName, "{commandName}_tag");
-
+            var menuMacro = new MenuMacro(group, $"{commandName}", commandName, $"{commandName}");
             menuMacro.macro.LargeImage = imagePath;
             return menuMacro;
         }
@@ -197,12 +196,12 @@ namespace IronMan.CAD.Demo.Extensions
                 ButtonStyle = RibbonButtonStyle.LargeWithText,
             };
             action.Invoke(ribbonSplitButton);
-            row.Items.Add(ribbonSplitButton);
 
             foreach (var item in actions)
             {
                 ribbonSplitButton.CreateRibbonSplitButtonItem(item);
             }
+            row.Items.Add(ribbonSplitButton);
             return row;
 
         }
