@@ -8,6 +8,8 @@
 		<StartProgram>C:\Program Files\Autodesk\AutoCAD 2023\acad.exe</StartProgram>
 		<AutoCADApplication>IronMan</AutoCADApplication>
 		<RunPostBuildEvent>always</RunPostBuildEvent>
+		<UseWindowsForms>true</UseWindowsForms>
+		<UseWPF>true</UseWPF>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -22,6 +24,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="AutoCAD.NET" Version="23.1.0" />
+		<PackageReference Include="AutoCAD.NET.Interop" Version="2023.24.2.53" />
 		<PackageReference Include="NetTopologySuite" Version="2.5.0" />
 	</ItemGroup>
 

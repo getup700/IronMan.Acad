@@ -195,8 +195,7 @@ namespace IronMan.CAD.Demo.Extensions
             {
                 ButtonStyle = RibbonButtonStyle.LargeWithText,
             };
-            action.Invoke(ribbonSplitButton);
-
+            action?.Invoke(ribbonSplitButton);
             foreach (var item in actions)
             {
                 ribbonSplitButton.CreateRibbonSplitButtonItem(item);

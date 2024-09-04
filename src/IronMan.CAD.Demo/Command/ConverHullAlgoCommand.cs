@@ -50,9 +50,7 @@ namespace IronMan.CAD.Demo.Command
             // 事务提交以释放模型空间的锁定
             trans.Commit();
             sortedPoints.Insert(0, startPoint);
-
-
-
+            
             // 逐个显示圆
             foreach (var point in sortedPoints)
             {

@@ -99,7 +99,7 @@ namespace IronMan.CAD.Demo
 
             ribbonRow.CreateRibbonSplitButton(btn =>
             {
-               
+
             },
             btn1 =>
             {
@@ -119,6 +119,78 @@ namespace IronMan.CAD.Demo
 
 
             ////创建分割线
+            ribbonRow.CreateRibbonSeparator();
+
+            ribbonRow.CreatePushButton(x =>
+            {
+                x.Text = "ConnectToAcad";
+                x.MacroID = ParentGroup.CreateMenuMacro("ConnectToAcad", $"{root}\\Assets\\PhoneNumber.png").ElementID;
+            });
+            ribbonRow.CreatePushButton(x =>
+            {
+                x.Text = "ReadDoc";
+                x.MacroID = ParentGroup.CreateMenuMacro("ReadDoc", $"{root}\\Assets\\PhoneNumber.png").ElementID;
+            });
+
+            ribbonRow.CreateRibbonSplitButton(null,
+            btn1 =>
+            {
+                btn1.Text = "BlockTable";
+                btn1.MacroID = ParentGroup.CreateMenuMacro("ReadBlockTable", $"{root}\\Assets\\PhoneNumber.png").ElementID;
+            },
+            btn2 =>
+            {
+                btn2.Text = "LayerTable";
+                btn2.MacroID = ParentGroup.CreateMenuMacro("ReadLayerTable", $"{root}\\Assets\\PhoneNumber.png").ElementID;
+            },
+            btn3 =>
+            {
+                btn3.Text = "DimTable";
+                btn3.MacroID = ParentGroup.CreateMenuMacro("ReadLayerTable", $"{root}\\Assets\\PhoneNumber.png").ElementID;
+            }
+            );
+
+            ribbonRow.CreateRibbonSplitButton(null,
+            btn1 =>
+            {
+                btn1.Text = "LayoutDic";
+                btn1.MacroID = ParentGroup.CreateMenuMacro("ReadLayoutDic", $"{root}\\Assets\\PhoneNumber.png").ElementID;
+            },
+            btn2 =>
+            {
+                btn2.Text = "LayerTable";
+                btn2.MacroID = ParentGroup.CreateMenuMacro("ReadLayerTable", $"{root}\\Assets\\PhoneNumber.png").ElementID;
+            },
+            btn3 =>
+            {
+                btn3.Text = "DimTable";
+                btn3.MacroID = ParentGroup.CreateMenuMacro("ReadLayerTable", $"{root}\\Assets\\PhoneNumber.png").ElementID;
+            }
+            );
+
+            ribbonRow.CreateRibbonSplitButton(null,
+            btn1 =>
+            {
+                btn1.Text = "AppendData";
+                btn1.MacroID = ParentGroup.CreateMenuMacro("AppendData", $"{root}\\Assets\\PhoneNumber.png").ElementID;
+            },
+            btn2 =>
+            {
+                btn2.Text = "ReadData";
+                btn2.MacroID = ParentGroup.CreateMenuMacro("ReadData", $"{root}\\Assets\\PhoneNumber.png").ElementID;
+            },
+            btn3 =>
+            {
+                btn3.Text = "DeleteData";
+                btn3.MacroID = ParentGroup.CreateMenuMacro("DeleteData", $"{root}\\Assets\\PhoneNumber.png").ElementID;
+            },
+            btn4 =>
+            {
+                btn4.Text = "UpdateData";
+                btn4.MacroID = ParentGroup.CreateMenuMacro("UpdateData", $"{root}\\Assets\\PhoneNumber.png").ElementID;
+            }
+            );
+
             ribbonRow.CreateRibbonSeparator();
 
 
@@ -196,6 +268,7 @@ namespace IronMan.CAD.Demo
         /// </summary>
         private void DeleteCuix()
         {
+            //查询主文件中的局部自定义文件是否包含当前自定义文件
             if (!mainSection.PartialCuiFiles.Contains(customCuix))
             {
                 return;
