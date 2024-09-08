@@ -2,6 +2,7 @@
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
+using Autodesk.AutoCAD.GraphicsInterface;
 using Autodesk.AutoCAD.Runtime;
 using IronMan.Acad.Demo.BasicApi;
 using IronMan.Acad.Demo.Command;
@@ -42,7 +43,7 @@ namespace IronMan.Acad.Demo.Command
                     var currentEntity = (Entity)trans.GetObject(id, OpenMode.ForWrite);
                     if (currentEntity.LayerId == entity.LayerId)
                     {
-                        if (currentEntity is Polyline polyline && polyline.Closed)
+                        if (currentEntity is Autodesk.AutoCAD.DatabaseServices.Polyline polyline && polyline.Closed)
                         {
                             var text = new MText();
                             text.TextHeight = 10;
@@ -79,7 +80,7 @@ namespace IronMan.Acad.Demo.Command
                 foreach (var objId in record)
                 {
                     var entity = (Entity)trans.GetObject(objId, OpenMode.ForWrite);
-                    if (entity is Polyline polyline && polyline.Closed)
+                    if (entity is Autodesk.AutoCAD.DatabaseServices.Polyline polyline && polyline.Closed)
                     {
                         if (GeometryUtil.IsPointInsidePolygon(clickPoint, polyline))
                         {

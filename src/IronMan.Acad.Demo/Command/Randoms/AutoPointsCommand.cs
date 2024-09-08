@@ -3,11 +3,11 @@ using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Runtime;
 using IronMan.Acad.Demo.Algorithm;
 using IronMan.Acad.Demo.BasicApi;
-using IronMan.Acad.Demo.Command.Random;
+using IronMan.Acad.Demo.Command.Randoms;
 using IronMan.Acad.Demo.Extensions;
 
 [assembly: CommandClass(typeof(AutoPointsCommand))]
-namespace IronMan.Acad.Demo.Command.Random
+namespace IronMan.Acad.Demo.Command.Randoms
 {
     internal class AutoPointsCommand : CommandBase
     {
